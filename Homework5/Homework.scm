@@ -152,5 +152,3 @@
     (let* ( (positives (filter positive? L))            ; positives holds only positive numbers of L
             (ones      (map (lambda (x) 1) positives))) ; turns each element in positives into 1
         (reduce + 0 ones)))                             ; sums the ones list
-
-; (wr (count-positives L4))
