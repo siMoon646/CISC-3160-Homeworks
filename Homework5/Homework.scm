@@ -101,17 +101,56 @@
         ((predicate (car L)) (drop-while predicate (cdr L)))
         (else L)))
 
-(wr (drop-while positive? '(3 2 1 0 -1))) ; (3 2 1)
-
 ; using
 
+; returns a list consisting of only elements that pass a test
 (define (filter predicate L)
     (cond
         ((null? L) '())
         ((predicate (car L)) (cons (car L) (filter predicate (cdr L))))
         (else (filter predicate (cdr L)))))
 
+; returns a value based on applying a procedure over a list
 (define (reduce procedure init L)
     (if (null? L)
         init
         (procedure (car L) (reduce procedure init (cdr L)))))
+
+;1
+(define L '((1 2 3) (4) (5 6) (7 8)))
+(map car L) ; (1 4 5 7)
+(map cdr L) ; ((2 3) () (6) (8))
+
+(define L3 '((1 2 3) () (4 5) (6 7 8 9) (10 11 12) (13)))
+
+;2
+(define (odd-length? L)
+    (if (odd? (length L)) 
+        #t 
+        #f))
+
+(define (func L)
+    (let* ( (oddLists (filter odd-length? L)) ; '( (1 2 3) () (10 11 12) (13) )
+            (firstElts(map car oddLists)))    ; '( 1 10 13 )
+            (reduce + 0 firstElts)))          ; 24
+
+(wr (func L3)) ; 24
+
+;4
+(define (abs-val x)
+    (if (positive? x)
+    x
+    (- x)))
+
+(define (sum-abs-list L)
+    (reduce + 0 (map abs-val L)))
+
+(define L4 '(-1 1 -2 2 -3 3))
+
+;5
+(define (count-positives L)
+    (let* ( (positives (filter positive? L))            ; positives holds only positive numbers of L
+            (ones      (map (lambda (x) 1) positives))) ; turns each element in positives into 1
+        (reduce + 0 ones)))                             ; sums the ones list
+
+; (wr (count-positives L4))
