@@ -140,5 +140,8 @@
 (a 1) ; 6
 
 ; Global: 
+; make-accumulator -> ...
 ; a -> accumulator procedure object
 ; b -> accumulator procedure object
+
+; E1 ()
